@@ -22,5 +22,8 @@ module WebrtcSpike
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.twilio_account_sid = ENV['TWILIO_ACCOUNT_SID']
+    config.twilio_auth_token = ENV['TWILIO_AUTH_TOKEN']
   end
 end
