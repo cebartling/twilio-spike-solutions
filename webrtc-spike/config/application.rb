@@ -27,5 +27,6 @@ module WebrtcSpike
     config.twilio_auth_token = ENV['TWILIO_AUTH_TOKEN']
     config.twilio_twiml_app_sid = ENV['TWILIO_TWIML_APP_SID']
     config.twilio_registered_phone_number = ENV['TWILIO_REGISTERED_PHONE_NUMBER']
+    config.default_client = ENV['TWILIO_DEFAULT_CLIENT']
   end
 end

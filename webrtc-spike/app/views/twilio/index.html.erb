@@ -13,7 +13,7 @@
     Twilio.Device.setup("<%= @token %>", {debug: true});
 
     Twilio.Device.ready(function (device) {
-      $("#log").text("Ready");
+      $("#log").text("Client '<%= @client_name %>' is ready");
     });
 
     Twilio.Device.error(function (error) {
@@ -28,15 +28,30 @@
       $("#log").text("Call ended");
     });
 
-    /* Listen for incoming connections */
     Twilio.Device.incoming(function (conn) {
       $("#log").text("Incoming connection from " + conn.parameters.From);
       // accept the incoming connection and start two-way audio
       conn.accept();
     });
 
+    Twilio.Device.presence(function (pres) {
+      if (pres.available) {
+        // create an item for the client that became available
+        $("<li>", {id: pres.from, text: pres.from}).click(function () {
+          $("#number").val(pres.from);
+          call();
+        }).prependTo("#people");
+      }
+      else {
+        // find the item by client name and remove it
+        $("#" + pres.from).remove();
+      }
+    });
+
     function call() {
-      Twilio.Device.connect();
+      // get the phone number or client to connect the call to
+      params = {"PhoneNumber": $("#number").val()};
+      Twilio.Device.connect(params);
     }
 
     function hangup() {
@@ -47,6 +62,10 @@
 <body>
 <button class="call" onclick="call();">Call</button>
 <button class="hangup" onclick="hangup();">Hangup</button>
+<input type="text" id="number" name="number" placeholder="Enter a phone number or client to call"/>
+
 <div id="log">Loading pigeons...</div>
+
+<ul id="people"></ul>
 </body>
 </html>
