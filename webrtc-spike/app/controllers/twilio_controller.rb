@@ -1,6 +1,6 @@
 class TwilioController < ApplicationController
 
-  # respond_to :json
+  protect_from_forgery with: :null_session
 
   def index
     # Find these values at twilio.com/user/account
@@ -9,9 +9,6 @@ class TwilioController < ApplicationController
     capability.allow_client_outgoing Rails.configuration.twilio_twiml_app_sid
     capability.allow_client_incoming 'chris'
     @token = capability.generate
-    # respond_to do |format|
-    #   format.json { render json: {token: @token} }
-    # end
   end
 
   def voice
@@ -21,9 +18,6 @@ class TwilioController < ApplicationController
         d.Client 'chris'
       end
     end
-    # respond_to do |format|
-    #   format.xml { render xml: response.text }
-    # end
     render text: response.text
   end
 
