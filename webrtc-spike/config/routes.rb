@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   get 'twilio' => 'twilio#index'
   post 'twilio/voice' => 'twilio#voice'
 
+  post '/api/v1/twilio/service_tokens' => 'twilio#service_token', :defaults => {format: 'json'}
+  post '/api/v1/twilio/capability_tokens' => 'twilio#capability_token', :defaults => {format: 'json'}
+
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
